@@ -1,11 +1,25 @@
-const express = require('express');
+import express from 'express';
+import { products } from '../app.js';
 
-const router = express();
+const viewRouter = express.Router();
 
- router.get('/', (req, res) => {
+viewRouter.get('/', (req, res) => {
     const products = []
 
-    res.render('index',{products});
+    res.render( "index",{products});
 });
 
-module.exports = router;
+viewRouter.post('/add-product', (req, res) => {
+    const product = {
+      name: req.body.name,
+      price: req.body.price
+    };
+    products.push(product);
+    res.redirect('/');
+  });
+
+  viewRouter.get('/realtimeproducts', (req, res) => {
+    res.render('realTimeProducts');
+  });
+  
+export default viewRouter;

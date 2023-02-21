@@ -1,42 +1,32 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Real Time Products</title>
-  </head>
-  <body>
-    <h1>Real Time Products</h1>
-    <ul id="product-list">
-      {{#each products}}
-        <li>
-          <span>{{this.name}}</span>
-          <span>{{this.description}}</span>
-          <span>{{this.price}}</span>
-          <span>{{this.stock}}</span>
-          <button class="delete-product" data-id="{{this.id}}">Delete</button>
-        </li>
-      {{/each}}
-    </ul>
-    <form id="add-product-form">
-      <h2>Add Product</h2>
-      <div>
-        <label for="product-name">Name:</label>
-        <input type="text" name="name" id="product-name" required>
-      </div>
-      <div>
-        <label for="product-description">Description:</label>
-        <input type="text" name="description" id="product-description" required>
-      </div>
-      <div>
-        <label for="product-price">Price:</label>
-        <input type="number" name="price" id="product-price" min="0" step="0.01" required>
-      </div>
-      <div>
-        <label for="product-stock">Stock:</label>
-        <input type="number" name="stock" id="product-stock" min="0" required>
-      </div>
-      <button type="submit">Add Product</button>
-    </form>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {{!-- Agregar un nuevo producto --}}
 
-    <script src="/socket.io/socket.io.js"></script>
-    
+  <form id="add-product-form">
+  <input type="text" name="name" placeholder="Nombre del producto">
+  <input type="number" name="price" placeholder="Precio del producto">
+  <button type="submit">Agregar producto</button>
+</form>
+{{!-- Eliminar un producto --}}
+
+<ul>
+  {{#each products}}
+    <li>
+      {{this.name}} - ${{this.price}}
+      <button class="delete-product" data-id="{{@index}}">Eliminar</button>
+    </li>
+  {{/each}}
+</ul>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/js/realTime.js"></script>
+
+</body>
+</html>
