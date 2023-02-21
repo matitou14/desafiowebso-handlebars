@@ -27,20 +27,21 @@ io.on('connection', (socket) => {
 });
 
 io.on('connection', (socket) => {
-    // enviar la lista actual de productos al cliente cuando se conecte
-    socket.emit('products', products);
+  console.log('Nuevo cliente conectado!');
+  socket.emit('products', products);
   
-    // agregar un nuevo producto al array "products"
-    socket.on('add-product', (newProduct) => {
-      products.push({ id: products.length, ...newProduct });
-      io.emit('products', products);
-    });
-  
-    // eliminar un producto del array "products"
-    socket.on('delete-product', (deletedProduct) => {
-      products.splice(deletedProduct.id, 1);
-      io.emit('products', products);
-    });
+  socket.on('add-product', (newProduct) => {
+    products.push({ id: products.length, ...newProduct });
+    io.emit('products', products);
   });
+  socket.on('delete-product', (deletedProduct) => {
+    products.splice(deletedProduct.id, 1);
+    io.emit('products', products);
+  });
+
+  socket.on('producto', (data) => {
+    io.sockets.emit('producto', data);
+  });
+});
 
 export { products };
