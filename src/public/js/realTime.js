@@ -28,3 +28,4 @@ const addProductForm = document.getElementById('add-product-form');
       </li>
     `).join('');
   });
+  io.sockets.emit('products', data)

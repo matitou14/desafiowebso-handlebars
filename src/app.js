@@ -21,8 +21,8 @@ app.use('/realtimeproducts', viewRouter)
 
 io.on('connection', (socket) => {
     console.log('Nuevo cliente conectado!');
-    socket.on('producto', (data) => {
-        io.sockets.emit('producto', data);
+    socket.on('products', (data) => {
+        io.sockets.emit('products', data);
     });
 });
 
