@@ -1,11 +1,11 @@
 {
-  "name": "desafiowebsockets",
+  "name": "desafionuevowebhbs",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "src/app.js",
   "scripts": {
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "start": "node ."
   },
   "keywords": [],
   "author": "",

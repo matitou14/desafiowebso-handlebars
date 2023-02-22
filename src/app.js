@@ -1,47 +1,40 @@
-import express from 'express';
-import handlebars from 'express-handlebars';
-import __dirname from '../src/utils.js';
-import viewRouter from './routes/view.router.js'
-import { Server } from 'socket.io';
-import path from 'path'
+const express = require('express');
+const handlebars = require('express-handlebars');
+const { Server } = require('socket.io');
+const routerViews = require('./routes/views.routes')
 
-const products = [];
+
 
 const app = express();
-const httpServer = app.listen(8080, () =>{console.log('Server listening on PORT 8080')});
-
+const httpServer = app.listen(8080, () => console.log('Server running on port 8080'));
 const io = new Server(httpServer);
 
+
+
 app.engine('handlebars', handlebars.engine());
+app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', viewRouter);
-app.use('/realtimeproducts', viewRouter)
+app.use(express.static(__dirname + '/public'));
+app.use('/', routerViews);
+app.use('/realtimeproducts', routerViews);
 
 io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado!');
-    socket.on('products', (data) => {
-        io.sockets.emit('products', data);
-    });
-});
+    console.log('New client connected');
+    
+    socket.on('add-product', (data) => {
+        console.log(data);
+    })
 
-io.on('connection', (socket) => {
-  console.log('Nuevo cliente conectado!');
-  socket.emit('products', products);
-  
-  socket.on('add-product', (newProduct) => {
-    products.push({ id: products.length, ...newProduct });
-    io.emit('products', products);
-  });
-  socket.on('delete-product', (deletedProduct) => {
-    products.splice(deletedProduct.id, 1);
-    io.emit('products', products);
-  });
+    socket.on('delete-product', (data) => {
+        console.log(data);
+    })
 
-  socket.on('producto', (data) => {
-    io.sockets.emit('producto', data);
-  });
-});
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    })
 
-export { products };
+    socket.on('productAdded', () => {
+        io.emit('updateProducts')});
+
+})
+   

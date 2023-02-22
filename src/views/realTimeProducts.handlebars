@@ -17,16 +17,25 @@
 {{!-- Eliminar un producto --}}
 
 <ul>
-  {{#each products}}
-    <li>
-      {{this.name}} - ${{this.price}}
-      <button class="delete-product" data-id="{{@index}}">Eliminar</button>
+ <form id="delete-product-form">
+  <label for="product-id">ID del producto a eliminar:</label>
+  <input type="text" id="product-id" name="id">
+  <button type="submit">Eliminar producto</button>
+</form>
+</ul>
+
+<ul>
+  {{#each productos}}
+    <li data-product-id="{{this.id}}">
+      {{this.name}} - {{this.price}}
     </li>
   {{/each}}
 </ul>
 
-<script src="/socket.io/socket.io.js"></script>
-<script defer src="../public/js/realTime.js"></script>
+
+<script src="/socket.io/socket.io.js" ></script>
+<script src="/js/index.js" ></script>
+
 
 </body>
 </html>
